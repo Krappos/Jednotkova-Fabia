@@ -20,11 +20,19 @@ public class Kmen extends Obrazok {
         // Hide log
     }
     
+    public void posunSa() {
+        x += rychlost;
+    }
+
     public void setX(int newX) {
         x = newX;
     }
-    
+
     public int getDlzka() {
         return dlzka;
+    }
+
+    public int getRychlost() {
+        return rychlost;
     }
 }

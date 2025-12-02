@@ -33,6 +33,10 @@ public class Korytnacka extends Obrazok {
     public int getDlzka() {
         return dlzka;
     }
+
+    public int getRychlost() {
+        return rychlost;
+    }
     
     @Override
     public void zobraz() {

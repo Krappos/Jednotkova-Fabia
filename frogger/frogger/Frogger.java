@@ -154,14 +154,13 @@ public class Frogger {
             
             // Move logs
             for (Kmen log : logs) {
-                // Move log and carry frog
-                int newX = log.getX() + 1;
-                if (newX > 400) {
-                    newX = -400;
-                } else if (newX < -400) {
-                    newX = 400;
+                log.posunSa();
+                // Wrap around screen
+                if (log.getX() > 400) {
+                    log.setX(-400);
+                } else if (log.getX() < -400) {
+                    log.setX(400);
                 }
-                log.setX(newX);
             }
             
             // Move turtles
@@ -178,14 +177,19 @@ public class Frogger {
             // Check if frog is on a log and move with it
             for (Kmen log : logs) {
                 if (isOnLog(frog, log)) {
-                    frog.setX(frog.getX() + 1);
+                    frog.setX(frog.getX() + log.getRychlost());
                 }
             }
-            
+
             // Check if frog is on a turtle and move with it
             for (Korytnacka turtle : riverTurtles) {
                 if (isOnTurtle(frog, turtle)) {
-                    frog.setX(frog.getX() - 1);
+                    // Turtle.posunSa moves left when smer==true (x -= rychlost)
+                    if (turtle.getSmer()) {
+                        frog.setX(frog.getX() - turtle.getRychlost());
+                    } else {
+                        frog.setX(frog.getX() + turtle.getRychlost());
+                    }
                 }
             }
         }
@@ -223,16 +227,18 @@ public class Frogger {
     }
     
     private void moveUp() {
-        if (frog.getY() < 240) {
-            frog.setY(frog.getY() + 20);
+        // Move visually up (decrease Y)
+        if (frog.getY() > -240) {
+            frog.setY(frog.getY() - 20);
             jumps++;
             checkFrog();
         }
     }
     
     private void moveDown() {
-        if (frog.getY() > -240) {
-            frog.setY(frog.getY() - 20);
+        // Move visually down (increase Y)
+        if (frog.getY() < 240) {
+            frog.setY(frog.getY() + 20);
             jumps++;
             checkFrog();
         }
@@ -514,13 +520,13 @@ public class Frogger {
     // ==================== OBJECT CREATION ====================
     
     private void createTruck(int x, int y, int direction, float speed) {
-        // Force trucks to move left-to-right (smer = true)
-        trucks.add(new Kamion(x * 40, y, (int)(speed * 2), true, 50));
+        // Force trucks to move left-to-right (smer = true) and increase speed
+        trucks.add(new Kamion(x * 40, y, (int)(speed * 4), true, 50));
     }
     
     private void createCar(int x, int y, int direction, float speed) {
-        // Force cars to move left-to-right (smer = true)
-        cars.add(new Auto(x * 40, y, (int)(speed * 2), true, 40));
+        // Force cars to move left-to-right (smer = true) and increase speed
+        cars.add(new Auto(x * 40, y, (int)(speed * 4), true, 40));
     }
     
     private void createLog(int x, int y, int length, float speed) {
