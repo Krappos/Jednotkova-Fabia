@@ -1,0 +1,125 @@
+╔════════════════════════════════════════════════════════════════╗
+║                    🐸 FROGGER - NÁVOD NA SPUSTENIE             ║
+╚════════════════════════════════════════════════════════════════╝
+
+AKO HRAŤ HRAD FROGGER V JAZYKU JAVA
+=====================================
+
+1. SPUSTENIE HRY
+───────────────
+   V termináli napíš:
+   
+   $ java Frogger
+   
+   Alebo klikni na tlačidlo "Run" v BlueJ ak používaš vývojové prostredie.
+
+2. OKNO HRY
+──────────
+   Otvorí sa nové okno s:
+   
+   ┌─ ĽAVÁ STRANA ─────────────────┐
+   │  • Plátno s hrou (800x600px)  │
+   │  • Zelená tráva                │
+   │  • Siva cesta (doprava)        │
+   │  • Modrá rieka (s prekážkami)  │
+   └────────────────────────────────┘
+   
+   ┌─ PRAVÁ STRANA ─────────────────┐
+   │  • Tlačidlá (NOVÁ HRA, ŠTART)  │
+   │  • Monitora (životy, level...)  │
+   │  • Jazdce (nastavenia)          │
+   └────────────────────────────────┘
+
+3. NASTAVENIE
+─────────────
+   Pred spustením hry:
+   
+   a) Počiatok životov (1-10)
+      - Posúvač vľavo/vpravo
+      - Predvolený: 3 životy
+   
+   b) Počiatok času (100-600 sekúnd)
+      - Posúvač vľavo/vpravo
+      - Predvolený: 300 sekúnd
+   
+   c) Počiatok levelu (1-5)
+      - Posúvač vľavo/vpravo
+      - Predvolený: 1. level
+
+4. SPUSTENIE
+────────────
+   1. Nastav parametre pomocou jazdcov
+   2. Klikni na "NOVÁ HRA" (resetuje hru)
+   3. Klikni na "ŠTART" (spustí hru)
+   4. Pohybuj žabou pomocou šípiek
+
+5. TLAČIDLÁ
+───────────
+   ↑ HORE   - Skok smerom hore
+   ↓ DOLE   - Skok smerom dole
+   ← ĽAVO   - Skok smerom doľava
+   → VPRAVO - Skok smerom doprava
+
+6. CIEĽ
+───────
+   ⭐ Dostani žabu na všetky 5 lístkov (zelené krúžky)
+   ⭐ Bez toho aby ťa zasiahlo auto alebo nákladiak
+   ⭐ Bez toho aby si padol do vody
+   ⭐ Pred vypršaním času
+
+7. MONITORS (PRESNE POZORUJ)
+──────────────────────────────
+   • Životov: __  → Počet zostávajúcich životov
+   • Level: __    → Aktuálny level (1-5)
+   • Čas: ___     → Zostávajúci čas v sekundách
+   • Skokov: ___  → Celkový počet skokov
+
+8. PRAVIDLÁ
+───────────
+   ✓ BEZPEČIE:
+     - Tráva na začiatku a konci
+     - Lístky v cieli
+   
+   ✗ SMRŤ:
+     - Zasiahnutie autom
+     - Zasiahnutie nákladiakom
+     - Skok do vody bez dreva/korytnačky
+     - Potopenie sa s potápajúcou sa korytnačkou
+     - Vypršanie času
+
+9. SEKVENČNE KROKOV
+────────────────────
+   1. NOVÁ HRA → Nastaví hru
+   2. ŠTART   → Spustí hru
+   3. ↑ ↑ ↑   → Pohybuj sa hore cez preč ažky
+   4. OPAKOVAŤ → Prejdi všetky pásy
+   5. RIEKA → Skákaj na drevo a korytnačky
+   6. LÍSTKY → Dosiahni všetky 5 lístkov
+   7. LEVEL++ → Pokračuj na ďalší level
+
+10. ZISŤOVANIE PROBLÉMOV
+─────────────────────────
+   ❌ Obrázky sa nezobrazujú?
+      - Skontroluj, či je zložka "obrazky/" v správnom mieste
+      - Obrázky sú: auto.jpg.png, kamion.jpg, korytnacka.jpg, lekno.jpg
+   
+   ❌ Hra nereagujem na klávesy?
+      - Klikni do okna hry aby mal fokus
+      - Skúste zase stlačiť šípky
+   
+   ❌ Hra je príliš rýchla/pomalá?
+      - Zmeniť čas v Frogger.java (GAME_SPEED)
+
+11. VIAC POKYNOV
+─────────────────
+   Čítaj súbor: INSTRUCTIONS.md
+   - Podrobný popis pravidiel
+   - Tipy a triky
+   - Stratégie na jednotlivé levely
+   - Budúce rozšírenia
+
+═══════════════════════════════════════════════════════════════════
+
+                    ✨ Zabav sa! Skákaj na lístky! ✨
+
+═══════════════════════════════════════════════════════════════════

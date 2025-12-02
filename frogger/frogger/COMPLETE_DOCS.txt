@@ -1,0 +1,408 @@
+╔════════════════════════════════════════════════════════════════╗
+║         🐸 FROGGER - KOMPLETNÚ DOKUMENTÁCIA PROJEKTU           ║
+╚════════════════════════════════════════════════════════════════╝
+
+PROJECT: Frogger Game
+AUTHOR: Jednotkova & Fabia
+BASED ON: NetLogo Frogger Model (Wilensky, U. 2002)
+LANGUAGE: Java with Swing GUI
+DATE: December 2025
+
+════════════════════════════════════════════════════════════════
+
+1. POPIS PROJEKTU
+═════════════════
+
+Frogger je klasická arkádová hra, kde hráč ovláda žabu a snaží sa
+dostať z dolnej časti obrazovky cez dopravu a rieku na bezpečné
+lístky na vrchu. Hra obsahuje 5 levelov s rastúcou ťažkosťou.
+
+════════════════════════════════════════════════════════════════
+
+2. ŠTRUKTÚRA SÚBOROV
+════════════════════
+
+MAIN GAME FILES:
+├── Frogger.java              [Hlavná trieda - logika hry]
+├── Platno.java               [GUI a vykresľovanie]
+└── manazer.java              [Manager - pomocná trieda]
+
+GAME ENTITIES:
+├── zaba.java                 [Hráč - žaba]
+├── Auto.java                 [Autá na ceste]
+├── Kamion.java               [Nákladiaky na ceste]
+├── Kmen.java                 [Drevo v rieke]
+├── Korytnacka.java          [Korytnačky v rieke]
+└── Lekno.java               [Lístky (ciel)]
+
+BASE CLASSES:
+├── Obrazok.java              [Abstraktná trieda]
+├── obdlznik.java            [Obdĺžnik (tvar)]
+└── Cesta.java               [Cesta (druh herného poľa)]
+└── trava.java               [Tráva (bezpečné miesto)]
+
+DOKUMENTÁCIA:
+├── INSTRUCTIONS.md           [Podrobný návod na hru]
+├── NAVOD.txt                [Rýchly návod na spustenie]
+└── COMPLETE_DOCS.txt        [Tento súbor]
+
+RESOURCES:
+└── obrazky/                 [Obrázky herných prvkov]
+    ├── auto.jpg.png        [Obrázok auta]
+    ├── kamion.jpg          [Obrázok nákladiaku]
+    ├── korytnacka.jpg      [Obrázok korytnačky]
+    └── lekno.jpg           [Obrázok lístka]
+
+════════════════════════════════════════════════════════════════
+
+3. TRIEDY A ICH ÚLOHY
+═════════════════════
+
+┌─ HLAVNE TRIEDY ─────────────────────────────────────────────┐
+│                                                              │
+│ ⭐ Frogger.java                                              │
+│    Úloha: Hlavná logika hry, game loop, kolízie            │
+│    Atribúty:                                                │
+│      - lives, level, jumps, timeLeft, padsDone             │
+│    Metódy:                                                  │
+│      - setup(), go(), move(), nextLevel()                  │
+│      - Viac ako 5 levelov s vlastnými nastavieniami       │
+│      - Kontrola kolízií a stavu hry                        │
+│                                                              │
+│ 🎨 Platno.java                                              │
+│    Úloha: Grafické rozhranie, vykresľovanie, vstupy       │
+│    Komponenty:                                              │
+│      - GamePanel: 800x600 plátno                           │
+│      - Tlačidlá: NOVÁ HRA, ŠTART                          │
+│      - Monitora: Státus hry                                │
+│      - Jazdce: Nastavenia (životy, čas, level)            │
+│    Vstupy:                                                  │
+│      - Šípky na klávesnici (Up, Down, Left, Right)        │
+│      - Tlačidlá myšou                                      │
+│                                                              │
+│ 🎮 GamePanel (vnorená trieda v Platno)                     │
+│    Úloha: Vykresľovanie grafiky                           │
+│    Funkcie:                                                 │
+│      - Načítavanie obrázkov                               │
+│      - Vykresľovanie: dopravy, vody, žaby, překážok      │
+│      - Sieka pre orientáciu                                │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
+
+┌─ ENTITY TRIEDY ─────────────────────────────────────────────┐
+│                                                              │
+│ 🐸 zaba.java (extends obdlznik)                             │
+│    Predstavuje: Hráča                                       │
+│    Vlastnosti:                                              │
+│      - poziciaX, poziciaY (aktuálna pozícia)              │
+│      - veľkosť: 30x30 px                                   │
+│    Metódy:                                                  │
+│      - setX(), setY() - zmena pozície                     │
+│      - posunDolava/Doprava/Hore/Dole() - pohyb            │
+│                                                              │
+│ 🚗 Auto.java (extends Obrazok)                              │
+│    Predstavuje: Auto na ceste                              │
+│    Vlastnosti:                                              │
+│      - rychlost, smer (0=ľavo, 1=vpravo)                  │
+│      - rad (polomer/veľkosť)                              │
+│    Metódy:                                                  │
+│      - posunSa() - pohyb auta                             │
+│      - getSmer(), setX()                                   │
+│                                                              │
+│ 🚚 Kamion.java (extends Obrazok)                            │
+│    Predstavuje: Nákladiak na ceste                         │
+│    Vlastnosti:                                              │
+│      - rychlost, smer (0=ľavo, 1=vpravo)                  │
+│      - rad (väčší ako auto)                               │
+│    Metódy:                                                  │
+│      - posunSa() - pohyb nákladiaku                       │
+│      - getSmer(), setX()                                   │
+│                                                              │
+│ 🪵 Kmen.java (extends Obrazok)                              │
+│    Predstavuje: Kúsok dreva v rieke                        │
+│    Vlastnosti:                                              │
+│      - dlzka (dĺžka dreva)                                │
+│      - rychlost (pohyb v rieke)                           │
+│    Metódy:                                                  │
+│      - setX() - zmena pozície (pohyb v rieke)             │
+│      - getDlzka()                                          │
+│                                                              │
+│ 🐢 Korytnacka.java (extends Obrazok)                        │
+│    Predstavuje: Korytnačka v rieke                         │
+│    Vlastnosti:                                              │
+│      - smer (ľavo/vpravo)                                  │
+│      - rychlost, dlzka                                     │
+│    Metódy:                                                  │
+│      - posunSa() - pohyb korytnačky                       │
+│      - setX(), getSmer(), getDlzka()                      │
+│                                                              │
+│ 🌿 Lekno.java (extends Obrazok)                             │
+│    Predstavuje: Bezpečný lístok v rieke                    │
+│    Vlastnosti:                                              │
+│      - pozícIA (stacionárny)                              │
+│    Metódy:                                                  │
+│      - zobraz(), skry()                                   │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
+
+┌─ ZÁKLADNE TRIEDY ───────────────────────────────────────────┐
+│                                                              │
+│ 📦 Obrazok.java (abstraktná)                               │
+│    Úloha: Základná trieda pre všetky prvky hry             │
+│    Vlastnosti:                                              │
+│      - x, y (pozícia na obrazovke)                        │
+│    Abstraktne metódy:                                       │
+│      - zobraz(), skry()                                    │
+│                                                              │
+│ 🔲 obdlznik.java (extends Obrazok)                         │
+│    Úloha: Obdĺžnikové tvary                               │
+│    Vlastnosti:                                              │
+│      - sirkaPx, vyskaPx (rozmery)                         │
+│      - farbaPx (farba)                                     │
+│    Metódy:                                                  │
+│      - zmenaVelkosti(), getSirka(), getVyska()            │
+│                                                              │
+│ 🛣️ Cesta.java (extends obdlznik)                            │
+│    Úloha: Reprezentácia cesty                              │
+│    Funkcia: Herné pole s dopravou                         │
+│                                                              │
+│ 🌾 trava.java (extends obdlznik)                            │
+│    Úloha: Reprezentácia trávy                              │
+│    Funkcia: Bezpečné miesto                               │
+│                                                              │
+│ ⚙️ manazer.java                                              │
+│    Úloha: Riadiaca trieda                                  │
+│    Metódy:                                                  │
+│      - tick() - aktualizácia herného stavu                │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
+
+════════════════════════════════════════════════════════════════
+
+4. HERNÉ MECHANIKY
+═══════════════════
+
+┌─ POHYB ──────────────────────────────────────────────────────┐
+│ Žaba sa pohybuje v sieti 40x40 px (1 políčko = 1 skok)      │
+│ Doprava a riečne objekty sa pohybujú nepretržite             │
+│ Rýchlosť pohybu sa líši v jednotlivých leveloch             │
+└──────────────────────────────────────────────────────────────┘
+
+┌─ KOLÍZIE ────────────────────────────────────────────────────┐
+│ • Auto/Nákladiak + Žaba = SMRŤ                             │
+│ • Voda bez dreva/korytnačky = SMRŤ                         │
+│ • Potápajúca sa korytnačka s žabou = SMRŤ                  │
+│ • Čas vypršaný = SMRŤ                                       │
+│ • Zatlačenie za okraj = SMRŤ                               │
+│ • Dosiahnutie lístka = VÝHRA (prejsť na ďalší level)       │
+└──────────────────────────────────────────────────────────────┘
+
+┌─ ČASY OBNOVY ────────────────────────────────────────────────┐
+│ Game Loop: 50ms (20 FPS)                                     │
+│ Pohyb objektov: Každú sekundu                               │
+│ Odpočítavanie času: -1 cada sekundu                         │
+│ Detekcia kolízií: Každý frame                               │
+└──────────────────────────────────────────────────────────────┘
+
+════════════════════════════════════════════════════════════════
+
+5. LEVEL POPISY
+════════════════
+
+LEVEL 1 - TRÉNING
+  Náchody:     7 truck, 4 cars
+  Rieka:       6 logs, 5 turtle groups
+  Čas:         300 sekúnd
+  Ťažkosť:     ĽAHKÉ
+
+LEVEL 2 - ZÁKLADNÍ
+  Náchody:     7 trucks, 7 cars
+  Rieka:       6 logs, 4 turtle groups
+  Čas:         300 sekúnd
+  Ťažkosť:     STREDNE
+
+LEVEL 3 - ZVÝŠENÁ ZLOŽITOSŤ
+  Náchody:     9 trucks, 8 cars
+  Rieka:       3 logs, 4 turtle groups
+  Čas:         300 sekúnd
+  Ťažkosť:     ŤAŽKÉ
+
+LEVEL 4 - NÁROČNÝ
+  Náchody:     6 trucks, 12 cars
+  Rieka:       3 logs, 6 turtle groups
+  Čas:         300 sekúnd
+  Ťažkosť:     VEĽMI ŤAŽKÉ
+
+LEVEL 5 - ULTRA
+  Náchody:     0 trucks, 22 cars (!!!!)
+  Rieka:       3 logs, 6 turtle groups
+  Čas:         300 sekúnd
+  Ťažkosť:     EXTRÉMNE
+
+════════════════════════════════════════════════════════════════
+
+6. NASTAVITEĽNÉ PARAMETRE
+═══════════════════════════
+
+V Platno.java - GamePanel v jazdcoch:
+
+• START_LIVES (1-10)        Default: 3
+  - Počet životov na začiatku
+
+• START_TIME (100-600)      Default: 300
+  - Čas v sekundách na začiatku
+
+• START_LEVEL (1-5)         Default: 1
+  - Počiatočný level
+
+V Frogger.java:
+
+• GAME_SPEED (0.1f)         Default: 0.1
+  - Rýchlosť game loopa (menšie = rýchlejšie)
+
+════════════════════════════════════════════════════════════════
+
+7. VSTUPNÝ OVLÁDACÍ SYSTÉM
+═════════════════════════════
+
+KLÁVESNICA:
+├── ↑ (UP)    - Skok hore
+├── ↓ (DOWN)  - Skok dole
+├── ← (LEFT)  - Skok doľava
+└── → (RIGHT) - Skok doprava
+
+TLAČIDLÁ GUI:
+├── NOVÁ HRA  - Reset hry s novými nastaveniami
+└── ŠTART     - Spustenie hry
+
+JAZDCE (Sliders):
+├── Počiatok životov (1-10)
+├── Počiatok času (100-600 s)
+└── Počiatok levelu (1-5)
+
+════════════════════════════════════════════════════════════════
+
+8. MONITOROVANIE STAVU
+═══════════════════════
+
+GUI Displeje:
+├── Životov: N        - Zvyšné životy
+├── Level: N         - Aktuálny level (1-5)
+├── Čas: N           - Zostávajúci čas v sekundách
+└── Skokov: N        - Celkový počet skokov
+
+════════════════════════════════════════════════════════════════
+
+9. POŽIADAVKY NA SPUSTENIE
+═══════════════════════════
+
+Software:
+✓ Java JDK 8 alebo novšia
+✓ Java Swing (zabudované)
+✓ ImageIO pre načítavanie obrázkov
+
+Hardware:
+✓ Minimálne: 512MB RAM
+✓ Obrazovka: 1024x768 px
+✓ Kľúčnica s šípkami a myšou
+
+Súbory:
+✓ Všetky .java súbory skompilované
+✓ Zložka obrazky/ s obrázkami
+
+════════════════════════════════════════════════════════════════
+
+10. SPUSTENIE HRY
+══════════════════
+
+V termináli:
+   $ javac *.java
+   $ java Frogger
+
+V BlueJ:
+   1. Otvor projekt
+   2. Klikni pravým na Frogger
+   3. Zvol "new Frogger()"
+   4. Skontroluj Output panel
+
+════════════════════════════════════════════════════════════════
+
+11. ZNÁMÉ PROBLÉMY A RIEŠENIA
+══════════════════════════════
+
+Problem: NullPointerException pri spustení
+Riešenie: Skontroluj, či je obrazky/ zložka v správnom mieste
+
+Problem: Hra nereaguje na šípky
+Riešenie: Klikni do okna aby mal fokus, potom skúš znova
+
+Problem: Obrázky sa nezobrazujú
+Riešenie: Skontroluj cestu k obrázkom v Platno.java (riadok ~63)
+
+Problem: Hra je príliš pomalá
+Riešenie: Zníž GAME_SPEED v Frogger.java (napr. 0.05f)
+
+Problem: Hra je príliš rýchla
+Riešenie: Zvýš GAME_SPEED v Frogger.java (napr. 0.2f)
+
+════════════════════════════════════════════════════════════════
+
+12. MOŽNÉ ROZŠÍRENIA
+═════════════════════
+
+Implementované:
+✓ 5 úplne vyspelých levelov
+✓ GUI s jazdcami na nastavenia
+✓ Kolíznu detekcia
+✓ Pohyb objektov
+✓ Ovládanie klávesnicou
+
+Budúce:
+□ Systém bodov a skóre
+□ Ďalšie levely
+□ Bonusy a špeciálne prvky
+□ Zvukové efekty a hudba
+□ Uloženie a načítanie progresu
+□ Leaderboard (najlepšie časy)
+□ Automatický mód (AI bot)
+□ Multiplayer
+□ Animácie smrť/výhry
+□ Ďalšie grafické efekty
+
+════════════════════════════════════════════════════════════════
+
+13. CITOVANIE
+══════════════
+
+Pôvodný model NetLogo:
+  Wilensky, U. (2002). NetLogo Frogger model.
+  http://ccl.northwestern.edu/netlogo/models/Frogger.
+  Center for Connected Learning and Computer-Based Modeling,
+  Northwestern University, Evanston, IL.
+
+NetLogo software:
+  Wilensky, U. (1999). NetLogo.
+  http://ccl.northwestern.edu/netlogo/.
+  Center for Connected Learning and Computer-Based Modeling,
+  Northwestern University, Evanston, IL.
+
+Táto Java implementácia:
+  Jednotkova & Fabia (2025). Frogger Game Java Edition.
+  Založené na NetLogo modeli.
+
+════════════════════════════════════════════════════════════════
+
+14. AUTORI A KREDITY
+═════════════════════
+
+Vývojár: Jednotkova & Fabia
+Pôvod: NetLogo Frogger (Wilensky, 2002)
+Vývoj: Klasické arkádové hry
+Implementácia: Java with Swing GUI
+Dokumentácia: Vzhľadom na NetLogo model
+
+════════════════════════════════════════════════════════════════
+
+                        KONIEC DOKUMENTÁCIE
+
+════════════════════════════════════════════════════════════════
