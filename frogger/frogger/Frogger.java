@@ -70,7 +70,7 @@ public class Frogger {
         
         nextLevel();
     }
-        drawMap();
+    public void drawMap();
         
         switch(level) {
             case 1: level1(); break;
@@ -156,32 +156,32 @@ public class Frogger {
                 int newX = log.getX() + 1;
                 if (newX > 400) {
                     newX = -400;
+                public void setup() {
+                    action = 0;
+                    dead = false;
+                    lives = platno.getStartLives();
+                    level = platno.getStartLevel();
+                    timeLeft = platno.getStartTime();
+                    padsDone = 0;
+                    jumps = 0;
+        
+                    nextLevel();
                 }
-                log.setX(newX);
-                
-                // If frog is on log, move frog too
-                if (isOnLog(frog, log)) {
-                    frog.setX(frog.getX() + 1);
+    
+                private void nextLevel() {
+                    switch(level) {
+                        case 1: level1(); break;
+                        case 2: level2(); break;
+                        case 3: level3(); break;
+                        case 4: level4(); break;
+                        case 5: level5(); break;
+                        default:
+                            System.out.println("All levels complete! Game Over!");
+                            dead = true;
+                    }
                 }
-            }
-            
-            // Move river turtles
-            for (Korytnacka turtle : riverTurtles) {
-                turtle.posunSa();
-                // Wrap around screen
-                if (turtle.getX() > 400) {
-                    turtle.setX(-400);
-                } else if (turtle.getX() < -400) {
-                    turtle.setX(400);
-                }
-                
-                // If frog is on turtle, move frog opposite direction
-                if (isOnTurtle(frog, turtle)) {
-                    frog.setX(frog.getX() - 1);
-                }
-            }
-            
-            checkFrog();
+    
+                private void drawMap() {
         }
         
         platno.vykresli();
