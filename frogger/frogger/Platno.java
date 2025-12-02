@@ -200,6 +200,7 @@ public class Platno extends JFrame {
         private BufferedImage kamionImg;
         private BufferedImage korytnackaImg;
         private BufferedImage leknoImg;
+        private BufferedImage zabaImg;
         
         public GamePanel(int width, int height) {
             this.width = width;
@@ -220,6 +221,14 @@ public class Platno extends JFrame {
                 kamionImg = ImageIO.read(new File(basePath + "kamion.jpg"));
                 korytnackaImg = ImageIO.read(new File(basePath + "korytnacka.jpg"));
                 leknoImg = ImageIO.read(new File(basePath + "lekno.jpg"));
+                // optional frog image
+                File frogFilePng = new File(basePath + "zaba.png");
+                File frogFileJpg = new File(basePath + "zaba.jpg");
+                if (frogFilePng.exists()) {
+                    zabaImg = ImageIO.read(frogFilePng);
+                } else if (frogFileJpg.exists()) {
+                    zabaImg = ImageIO.read(frogFileJpg);
+                }
             } catch (Exception e) {
                 System.out.println("Chyba pri načítaní obrázkov: " + e.getMessage());
             }
@@ -367,17 +376,19 @@ public class Platno extends JFrame {
         private void drawFrog(Graphics2D g, zaba frog) {
             int x = frog.getX() + 400;
             int y = frog.getY() + 300;
-            
-            g.setColor(new Color(50, 205, 50));
-            g.fillOval(x, y, 30, 30);
-            g.setColor(Color.BLACK);
-            g.setStroke(new BasicStroke(2));
-            g.drawOval(x, y, 30, 30);
-            
-            // Draw eyes
-            g.setColor(Color.BLACK);
-            g.fillOval(x + 8, y + 8, 4, 4);
-            g.fillOval(x + 18, y + 8, 4, 4);
+            if (zabaImg != null) {
+                g.drawImage(zabaImg, x, y, 30, 30, null);
+            } else {
+                g.setColor(new Color(50, 205, 50));
+                g.fillOval(x, y, 30, 30);
+                g.setColor(Color.BLACK);
+                g.setStroke(new BasicStroke(2));
+                g.drawOval(x, y, 30, 30);
+                // Draw eyes
+                g.setColor(Color.BLACK);
+                g.fillOval(x + 8, y + 8, 4, 4);
+                g.fillOval(x + 18, y + 8, 4, 4);
+            }
         }
         
         private void drawInfo(Graphics2D g) {

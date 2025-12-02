@@ -1,6 +1,5 @@
 
 import java.util.*;
-import java.awt.event.*;
 import javax.swing.Timer;
 
 /**
@@ -25,9 +24,7 @@ public class Frogger {
     
     private Timer gameTimer;
     private float elapsedTime;
-    private static final int START_LIVES = 3;
-    private static final int START_TIME = 300;
-    private static final int START_LEVEL = 1;
+    
     private static final float GAME_SPEED = 0.1f;
     
     public Frogger() {
@@ -70,8 +67,10 @@ public class Frogger {
         
         nextLevel();
     }
-    public void drawMap();
-        
+    
+    private void nextLevel() {
+        // prepare level (create pads, reset frog)
+        drawMap();
         switch(level) {
             case 1: level1(); break;
             case 2: level2(); break;
@@ -156,34 +155,39 @@ public class Frogger {
                 int newX = log.getX() + 1;
                 if (newX > 400) {
                     newX = -400;
-                public void setup() {
-                    action = 0;
-                    dead = false;
-                    lives = platno.getStartLives();
-                    level = platno.getStartLevel();
-                    timeLeft = platno.getStartTime();
-                    padsDone = 0;
-                    jumps = 0;
-        
-                    nextLevel();
+                } else if (newX < -400) {
+                    newX = 400;
                 }
-    
-                private void nextLevel() {
-                    switch(level) {
-                        case 1: level1(); break;
-                        case 2: level2(); break;
-                        case 3: level3(); break;
-                        case 4: level4(); break;
-                        case 5: level5(); break;
-                        default:
-                            System.out.println("All levels complete! Game Over!");
-                            dead = true;
-                    }
+                log.setX(newX);
+            }
+            
+            // Move turtles
+            for (Korytnacka turtle : riverTurtles) {
+                turtle.posunSa();
+                // Wrap around screen
+                if (turtle.getX() > 400) {
+                    turtle.setX(-400);
+                } else if (turtle.getX() < -400) {
+                    turtle.setX(400);
                 }
-    
-                private void drawMap() {
+            }
+            
+            // Check if frog is on a log and move with it
+            for (Kmen log : logs) {
+                if (isOnLog(frog, log)) {
+                    frog.setX(frog.getX() + 1);
+                }
+            }
+            
+            // Check if frog is on a turtle and move with it
+            for (Korytnacka turtle : riverTurtles) {
+                if (isOnTurtle(frog, turtle)) {
+                    frog.setX(frog.getX() - 1);
+                }
+            }
         }
         
+        checkFrog();
         platno.vykresli();
     }
     
@@ -507,11 +511,13 @@ public class Frogger {
     // ==================== OBJECT CREATION ====================
     
     private void createTruck(int x, int y, int direction, float speed) {
-        trucks.add(new Kamion(x * 40, y, (int)(speed * 2), direction == 90, 50));
+        // Force trucks to move left-to-right (smer = true)
+        trucks.add(new Kamion(x * 40, y, (int)(speed * 2), true, 50));
     }
     
     private void createCar(int x, int y, int direction, float speed) {
-        cars.add(new Auto(x * 40, y, (int)(speed * 2), direction == 90, 40));
+        // Force cars to move left-to-right (smer = true)
+        cars.add(new Auto(x * 40, y, (int)(speed * 2), true, 40));
     }
     
     private void createLog(int x, int y, int length, float speed) {
@@ -540,8 +546,4 @@ public class Frogger {
         this.action = action;
     }
     
-    public static void main(String[] args) {
-        Frogger game = new Frogger();
-        game.setup();
-    }
 }
