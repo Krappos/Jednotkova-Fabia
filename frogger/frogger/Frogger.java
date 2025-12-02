@@ -24,6 +24,7 @@ public class Frogger {
     
     private Timer gameTimer;
     private float elapsedTime;
+    private Random rand = new Random();
     
     private static final float GAME_SPEED = 0.1f;
     
@@ -95,7 +96,8 @@ public class Frogger {
         
         // Create pads at top
         for (int x = -6; x <= 6; x += 3) {
-            pads.add(new Lekno(x * 40, 240));
+            // place pads at the top row (negative Y)
+            pads.add(new Lekno(x * 40, -240));
         }
         
         resetFrog();
@@ -122,76 +124,65 @@ public class Frogger {
     
     private void move() {
         moveFrog();
+        // Move all dynamic objects every tick to create smoother, smaller increments
+        for (Kamion truck : trucks) {
+            truck.posunSa();
+            if (truck.getX() > 420) {
+                truck.setX(-420 - rand.nextInt(160));
+            } else if (truck.getX() < -420) {
+                truck.setX(420 + rand.nextInt(160));
+            }
+        }
+
+        for (Auto car : cars) {
+            car.posunSa();
+            if (car.getX() > 420) {
+                car.setX(-420 - rand.nextInt(160));
+            } else if (car.getX() < -420) {
+                car.setX(420 + rand.nextInt(160));
+            }
+        }
+
+        for (Kmen log : logs) {
+            log.posunSa();
+            if (log.getX() > 420) {
+                log.setX(-420 - rand.nextInt(160));
+            } else if (log.getX() < -420) {
+                log.setX(420 + rand.nextInt(160));
+            }
+        }
+
+        for (Korytnacka turtle : riverTurtles) {
+            turtle.posunSa();
+            if (turtle.getX() > 420) {
+                turtle.setX(-420 - rand.nextInt(160));
+            } else if (turtle.getX() < -420) {
+                turtle.setX(420 + rand.nextInt(160));
+            }
+        }
+
+        // Carry frog with logs/turtles every tick (small movements)
+        for (Kmen log : logs) {
+            if (isOnLog(frog, log)) {
+                frog.setX(frog.getX() + log.getRychlost());
+            }
+        }
+
+        for (Korytnacka turtle : riverTurtles) {
+            if (isOnTurtle(frog, turtle)) {
+                if (turtle.getSmer()) {
+                    frog.setX(frog.getX() - turtle.getRychlost());
+                } else {
+                    frog.setX(frog.getX() + turtle.getRychlost());
+                }
+            }
+        }
+
+        // update time once per second
         elapsedTime += GAME_SPEED;
-        
         if (elapsedTime >= 1.0f) {
             elapsedTime = 0;
-            
-            // Decrement time
             timeLeft -= 1;
-            
-            // Move trucks
-            for (Kamion truck : trucks) {
-                truck.posunSa();
-                // Wrap around screen
-                if (truck.getX() > 400) {
-                    truck.setX(-400);
-                } else if (truck.getX() < -400) {
-                    truck.setX(400);
-                }
-            }
-            
-            // Move cars
-            for (Auto car : cars) {
-                car.posunSa();
-                // Wrap around screen
-                if (car.getX() > 400) {
-                    car.setX(-400);
-                } else if (car.getX() < -400) {
-                    car.setX(400);
-                }
-            }
-            
-            // Move logs
-            for (Kmen log : logs) {
-                log.posunSa();
-                // Wrap around screen
-                if (log.getX() > 400) {
-                    log.setX(-400);
-                } else if (log.getX() < -400) {
-                    log.setX(400);
-                }
-            }
-            
-            // Move turtles
-            for (Korytnacka turtle : riverTurtles) {
-                turtle.posunSa();
-                // Wrap around screen
-                if (turtle.getX() > 400) {
-                    turtle.setX(-400);
-                } else if (turtle.getX() < -400) {
-                    turtle.setX(400);
-                }
-            }
-            
-            // Check if frog is on a log and move with it
-            for (Kmen log : logs) {
-                if (isOnLog(frog, log)) {
-                    frog.setX(frog.getX() + log.getRychlost());
-                }
-            }
-
-            // Check if frog is on a turtle and move with it
-            for (Korytnacka turtle : riverTurtles) {
-                if (isOnTurtle(frog, turtle)) {
-                    // Turtle.posunSa moves left when smer==true (x -= rychlost)
-                    if (turtle.getSmer()) {
-                        frog.setX(frog.getX() - turtle.getRychlost());
-                    } else {
-                        frog.setX(frog.getX() + turtle.getRychlost());
-                    }
-                }
-            }
         }
         
         checkFrog();
@@ -530,7 +521,8 @@ public class Frogger {
     }
     
     private void createLog(int x, int y, int length, float speed) {
-        logs.add(new Kmen(x * 40, y, length * 40, (int)(speed * 2)));
+        // slightly adjust log speed multiplier to help crossing in the gray area
+        logs.add(new Kmen(x * 40, y, length * 40, Math.max(1, (int)(speed * 3))));
     }
     
     private void createRiverTurtle(int x, int y, int length, float speed) {
