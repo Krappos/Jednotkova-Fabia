@@ -25,6 +25,7 @@ public class Frogger {
     private Timer gameTimer;
     private float elapsedTime;
     private Random rand = new Random();
+    private int spawnProtection = 0; // ticks of invulnerability after respawn
     
     private static final float GAME_SPEED = 0.1f;
     
@@ -94,10 +95,9 @@ public class Frogger {
         riverTurtles.clear();
         pads.clear();
         
-        // Create pads at top
+        // Create pads at bottom (finish area)
         for (int x = -6; x <= 6; x += 3) {
-            // place pads at the top row (negative Y)
-            pads.add(new Lekno(x * 40, -240));
+            pads.add(new Lekno(x * 40, 240));
         }
         
         resetFrog();
@@ -108,10 +108,13 @@ public class Frogger {
         if (frog != null) {
             frog = null;
         }
+        // place frog at starting safe position (top area)
         frog = new zaba(0, -240);
         jumps = 0;
         timeLeft = platno.getStartTime();
         platno.setZaba(frog);
+        // grant short invulnerability so the frog won't die immediately after spawn
+        spawnProtection = 20; // 20 ticks (~1 second)
     }
     
     // ==================== MAIN GAME LOOP ====================
@@ -177,6 +180,9 @@ public class Frogger {
                 }
             }
         }
+
+        // decrement spawn protection each tick
+        if (spawnProtection > 0) spawnProtection--;
 
         // update time once per second
         elapsedTime += GAME_SPEED;
@@ -252,23 +258,25 @@ public class Frogger {
             }
         }
         
-        // Check if hit by truck or car
-        for (Kamion truck : trucks) {
-            if (isColliding(frog, truck)) {
-                killFrog();
-                return;
+        // If spawn protection active, skip collision and water death checks
+        if (spawnProtection <= 0) {
+            // Check if hit by truck or car
+            for (Kamion truck : trucks) {
+                if (isColliding(frog, truck)) {
+                    killFrog();
+                    return;
+                }
             }
-        }
-        
-        for (Auto car : cars) {
-            if (isColliding(frog, car)) {
-                killFrog();
-                return;
+            
+            for (Auto car : cars) {
+                if (isColliding(frog, car)) {
+                    killFrog();
+                    return;
+                }
             }
-        }
         
-        // Check if in water without safety
-        if (frog.getY() > 0 && frog.getY() < 200) {
+            // Check if in water without safety
+            if (frog.getY() > 0 && frog.getY() < 200) {
             boolean onLog = false;
             boolean onTurtle = false;
             
@@ -291,7 +299,7 @@ public class Frogger {
                 return;
             }
         }
-        
+        }
         // Check if time ran out
         if (timeLeft <= 0) {
             killFrog();
