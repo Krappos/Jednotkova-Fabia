@@ -208,7 +208,18 @@ public class Platno extends JFrame {
             setPreferredSize(new Dimension(width, height));
             setBackground(Color.WHITE);
             setFocusable(true);
+            // Allow arrow keys to be delivered to this panel
+            setFocusTraversalKeysEnabled(false);
             addKeyListener(this);
+            // Request focus so key events are received
+            requestFocusInWindow();
+            // Also request focus when clicked
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    requestFocusInWindow();
+                }
+            });
             
             // Load images
             loadImages();

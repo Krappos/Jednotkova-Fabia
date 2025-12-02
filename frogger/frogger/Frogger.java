@@ -47,6 +47,9 @@ public class Frogger {
         platno = new Platno(800, 600);
         platno.setGame(this);
         
+        // Initialize game state before starting timer
+        setup();
+
         // Start game timer
         gameTimer = new Timer(50, e -> {
             if (!dead) {
