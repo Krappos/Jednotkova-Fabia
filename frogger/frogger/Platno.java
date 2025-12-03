@@ -267,26 +267,12 @@ public class Platno extends JFrame {
             
             // Draw road area
             g2.setColor(new Color(128, 128, 128));
-            g2.fillRect(0, height - 300, width, 150);
+            g2.fillRect(0, height - 280, width, 100);
             
             // Draw river area
             g2.setColor(new Color(30, 144, 255));
-            g2.fillRect(0, height - 150, width, 150);
+            g2.fillRect(0, height - 180, width, 180);
 
-            // Draw finish area (green band) where pads are located
-            try {
-                java.util.List<Lekno> pads = game.getPads();
-                if (pads != null && !pads.isEmpty()) {
-                    int padScreenY = pads.get(0).getY() + 300; // convert to screen coords
-                    // draw a highlighted green band behind pads
-                    g2.setColor(new Color(34, 200, 34));
-                    int bandTop = Math.max(0, padScreenY - 10);
-                    g2.fillRect(0, bandTop, width, 50);
-                }
-            } catch (Exception ex) {
-                // ignore if game/pads not ready
-            }
-            
             // Draw grid for better visibility
             g2.setColor(new Color(100, 100, 100));
             g2.setStroke(new BasicStroke(1));

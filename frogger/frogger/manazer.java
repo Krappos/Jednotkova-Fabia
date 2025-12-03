@@ -69,8 +69,11 @@ public class manazer {
         riverTurtles.clear();
         pads.clear();
 
+        // Pads in river area at different Y positions
         for (int x = -6; x <= 6; x += 3) {
-            pads.add(new Lekno(x * 40, 240));
+            pads.add(new Lekno(x * 40, -40));   // Upper river
+            pads.add(new Lekno(x * 40, 20));    // Middle river
+            pads.add(new Lekno(x * 40, 80));    // Lower river
         }
 
         resetFrog();
@@ -182,20 +185,6 @@ public class manazer {
     private void checkFrog() {
         if (frog == null) return;
 
-        for (Lekno pad : pads) {
-            if (isNear(frog.getX(), frog.getY(), pad.getX(), pad.getY(), 30)) {
-                padsDone++;
-                resetFrog();
-                if (padsDone >= 5) {
-                    level++;
-                    padsDone = 0;
-                    System.out.println("Level " + level + " - All frogs safe!");
-                    nextLevel();
-                }
-                return;
-            }
-        }
-
         if (spawnProtection > 0) return;
 
         // Collisions with vehicles only in road areas
@@ -204,12 +193,13 @@ public class manazer {
             for (Auto c : cars) if (isColliding(frog, c)) { killFrog(); return; }
         }
 
-        // Water area check (must be on log or turtle)
-        if (frog.getY() > 100 && frog.getY() < 200) {
-            boolean onLog = false, onTurtle = false;
+        // Water area check (must be on log, turtle, or pad)
+        if (frog.getY() > -60 && frog.getY() < 100) {
+            boolean onLog = false, onTurtle = false, onPad = false;
             for (Kmen log : logs) if (isOnLog(frog, log)) { onLog = true; break; }
             for (Korytnacka t : riverTurtles) if (isOnTurtle(frog, t)) { onTurtle = true; break; }
-            if (!onLog && !onTurtle) { killFrog(); return; }
+            for (Lekno pad : pads) if (isOnPad(frog, pad)) { onPad = true; break; }
+            if (!onLog && !onTurtle && !onPad) { killFrog(); return; }
         }
 
         if (timeLeft <= 0) { killFrog(); return; }
@@ -235,6 +225,9 @@ public class manazer {
     }
     private boolean isOnTurtle(zaba frog, Korytnacka t) {
         return Math.abs(frog.getX() - t.getX()) < 30 && Math.abs(frog.getY() - t.getY()) < 15;
+    }
+    private boolean isOnPad(zaba frog, Lekno pad) {
+        return Math.abs(frog.getX() - pad.getX()) < 30 && Math.abs(frog.getY() - pad.getY()) < 25;
     }
     private boolean isNear(int x1,int y1,int x2,int y2,int d){return Math.abs(x1-x2)<d && Math.abs(y1-y2)<d;}
 
