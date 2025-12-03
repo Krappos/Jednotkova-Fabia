@@ -323,6 +323,7 @@ public class Platno extends JFrame {
             }
             
             // Draw frog
+            zaba frog = game.getFrog();
             if (frog != null) {
                 drawFrog(g2, frog);
             }
