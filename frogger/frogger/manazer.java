@@ -322,12 +322,12 @@ public class manazer {
         createCar(-2,-40,270,0.3f);
         createCar(-7,-40,270,0.3f);
         // Logs - accessible path, none near finish zone (Y >= 270)
-        createLog(4,110,3,0.6f);
-        createLog(-8,110,5,0.6f);
-        createLog(0,110,4,0.6f);
-        createLog(4,180,2,0.7f);
-        createLog(-4,180,3,0.7f);
-        createLog(-10,180,3,0.7f);
+        createLog(4,130,3,0.6f);
+        createLog(-8,130,5,0.6f);
+        createLog(0,130,4,0.6f);
+        createLog(4,200,2,0.7f);
+        createLog(-4,200,3,0.7f);
+        createLog(-10,200,3,0.7f);
         // Turtles for safe passage
         createRiverTurtle(2,160,2,0.4f);
         createRiverTurtle(-4,160,4,0.4f);
@@ -336,8 +336,6 @@ public class manazer {
         createRiverTurtle(-3,240,4,0.5f);
         createRiverTurtle(7,240,3,0.5f);
         createRiverTurtle(-8,240,3,0.5f);
-        createRiverTurtle(0,280,4,0.3f);
-        createRiverTurtle(5,280,3,0.3f);
     }
     private void level2(){
         createTruck(4,-200,270,0.8f);
@@ -355,17 +353,15 @@ public class manazer {
         createCar(-3,-40,270,0.4f);
         createCar(-6,-40,270,0.4f);
         // Logs - no logs near finish zone
-        createLog(6,110,3,0.6f);
-        createLog(-4,110,4,0.6f);
-        createLog(0,180,3,0.3f);
-        createLog(-6,180,3,0.3f);
+        createLog(6,130,3,0.6f);
+        createLog(-4,130,4,0.6f);
+        createLog(0,200,3,0.3f);
+        createLog(-6,200,3,0.3f);
         // Turtles for safe passage to finish
         createRiverTurtle(0,160,4,0.3f);
         createRiverTurtle(6,160,4,0.3f);
         createRiverTurtle(0,240,4,0.4f);
         createRiverTurtle(6,240,3,0.4f);
-        createRiverTurtle(3,280,3,0.3f);
-        createRiverTurtle(-4,280,4,0.3f);
     }
     private void level3(){
         createTruck(-8,-200,270,0.7f);
@@ -386,16 +382,14 @@ public class manazer {
         createCar(-7,-40,270,0.3f);
         createCar(-3,-40,270,0.3f);
         // Logs - no logs near finish zone
-        createLog(-6,110,4,0.4f);
-        createLog(-2,180,3,0.4f);
-        createLog(5,180,3,0.4f);
+        createLog(-6,130,4,0.4f);
+        createLog(-2,200,3,0.4f);
+        createLog(5,200,3,0.4f);
         // Turtles for safe passage to finish
         createRiverTurtle(-4,160,4,0.3f);
         createRiverTurtle(5,160,4,0.3f);
         createRiverTurtle(-1,240,3,0.4f);
         createRiverTurtle(-8,240,3,0.4f);
-        createRiverTurtle(0,280,3,0.2f);
-        createRiverTurtle(4,280,3,0.2f);
     }
     private void level4(){
         createTruck(-8,-200,270,0.5f);
@@ -417,8 +411,8 @@ public class manazer {
         createCar(-7,-40,270,0.3f);
         createCar(-3,-40,270,0.3f);
         // Logs - no logs near finish zone
-        createLog(-3,110,3,0.3f);
-        createLog(-3,180,3,0.3f);
+        createLog(-3,130,3,0.3f);
+        createLog(-3,200,3,0.3f);
         // Turtles for safe passage
         createRiverTurtle(-4,160,4,0.3f);
         createRiverTurtle(4,160,4,0.3f);
@@ -426,8 +420,6 @@ public class manazer {
         createRiverTurtle(-1,240,3,0.4f);
         createRiverTurtle(-8,240,3,0.4f);
         createRiverTurtle(3,240,2,0.4f);
-        createRiverTurtle(0,280,3,0.2f);
-        createRiverTurtle(5,280,3,0.2f);
     }
     private void level5(){
         createCar(-4,-200,270,0.3f);
@@ -453,8 +445,8 @@ public class manazer {
         createCar(-7,-40,270,0.3f);
         createCar(-3,-40,270,0.3f);
         // Logs - no logs near finish zone
-        createLog(-5,110,2,0.2f);
-        createLog(0,180,2,0.1f);
+        createLog(-5,130,2,0.2f);
+        createLog(0,200,2,0.1f);
         // Turtles for safe passage to finish
         createRiverTurtle(-4,160,2,0.3f);
         createRiverTurtle(4,160,3,0.3f);
@@ -462,8 +454,6 @@ public class manazer {
         createRiverTurtle(-1,240,2,0.3f);
         createRiverTurtle(-8,240,2,0.3f);
         createRiverTurtle(3,240,3,0.3f);
-        createRiverTurtle(0,280,2,0.2f);
-        createRiverTurtle(5,280,2,0.2f);
     }
 
     private void createTruck(int x,int y,int direction,float speed){ 
