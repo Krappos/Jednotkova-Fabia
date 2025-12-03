@@ -243,8 +243,9 @@ public class manazer {
                 for (Auto c : cars) if (isColliding(frog, c)) { killFrog(); return; }
             }
 
-            // Water area check (river area must be around Y 100..310). Frog must be on log, turtle, or pad.
-            if (frog.getY() >= 100 && frog.getY() < 310) {
+            // Water area check (river area must be around Y 100..270). Frog must be on log, turtle, or pad.
+            // Finish zone (Y >= 270) is clear - no platforms needed
+            if (frog.getY() >= 100 && frog.getY() < 270) {
                 boolean onLog = false, onTurtle = false, onPad = false;
                 for (Kmen log : logs) if (isOnLog(frog, log)) { onLog = true; break; }
                 for (Korytnacka t : riverTurtles) if (isOnTurtle(frog, t)) { onTurtle = true; break; }
@@ -320,17 +321,14 @@ public class manazer {
         createCar(3,-40,270,0.3f);
         createCar(-2,-40,270,0.3f);
         createCar(-7,-40,270,0.3f);
-        // More logs
-        createLog(4,120,3,0.6f);
-        createLog(-8,120,5,0.6f);
-        createLog(0,120,4,0.6f);
-        createLog(4,200,2,0.7f);
-        createLog(-4,200,3,0.7f);
-        createLog(-10,200,3,0.7f);
-        createLog(1,280,4,0.3f);
-        createLog(-6,280,4,0.3f);
-        createLog(6,280,3,0.3f);
-        // More turtles
+        // Logs - accessible path, none near finish zone (Y >= 270)
+        createLog(4,110,3,0.6f);
+        createLog(-8,110,5,0.6f);
+        createLog(0,110,4,0.6f);
+        createLog(4,180,2,0.7f);
+        createLog(-4,180,3,0.7f);
+        createLog(-10,180,3,0.7f);
+        // Turtles for safe passage
         createRiverTurtle(2,160,2,0.4f);
         createRiverTurtle(-4,160,4,0.4f);
         createRiverTurtle(5,160,4,0.4f);
@@ -338,11 +336,135 @@ public class manazer {
         createRiverTurtle(-3,240,4,0.5f);
         createRiverTurtle(7,240,3,0.5f);
         createRiverTurtle(-8,240,3,0.5f);
+        createRiverTurtle(0,280,4,0.3f);
+        createRiverTurtle(5,280,3,0.3f);
     }
-    private void level2(){ createTruck(4,-200,270,0.8f); createTruck(-3,-200,270,0.8f); createTruck(0,-160,90,0.9f); createTruck(-4,-160,90,0.9f); createTruck(-1,-120,270,0.8f); createTruck(4,-120,270,0.8f); createTruck(-5,-120,270,0.8f); createCar(0,-80,90,0.2f); createCar(-4,-80,90,0.2f); createCar(8,-80,90,0.2f); createCar(6,-40,270,0.4f); createCar(2,-40,270,0.4f); createCar(-3,-40,270,0.4f); createCar(-6,-40,270,0.4f); createLog(6,120,3,0.6f); createLog(-4,120,4,0.6f); createLog(0,200,3,0.3f); createLog(-6,200,3,0.3f); createLog(1,280,4,0.5f); createLog(6,280,4,0.5f); createRiverTurtle(0,160,4,0.3f); createRiverTurtle(6,160,4,0.3f); createRiverTurtle(0,240,4,0.4f); createRiverTurtle(6,240,3,0.4f); }
-    private void level3(){ createTruck(-8,-200,270,0.7f); createTruck(-4,-200,270,0.7f); createTruck(0,-200,270,0.7f); createTruck(-2,-160,90,0.7f); createTruck(2,-160,90,0.7f); createTruck(-6,-160,90,0.7f); createTruck(-4,-120,270,0.7f); createTruck(0,-120,270,0.7f); createTruck(4,-120,270,0.7f); createCar(-3,-80,90,0.2f); createCar(-5,-80,90,0.2f); createCar(5,-80,90,0.2f); createCar(1,-80,90,0.2f); createCar(0,-40,270,0.3f); createCar(5,-40,270,0.3f); createCar(-7,-40,270,0.3f); createCar(-3,-40,270,0.3f); createLog(-6,120,4,0.4f); createLog(-2,200,3,0.4f); createLog(5,200,3,0.4f); createLog(-4,280,2,0.2f); createLog(0,280,2,0.2f); createLog(4,280,2,0.2f); createRiverTurtle(-4,160,4,0.3f); createRiverTurtle(5,160,4,0.3f); createRiverTurtle(-1,240,3,0.4f); createRiverTurtle(-8,240,3,0.4f); }
-    private void level4(){ createTruck(-8,-200,270,0.5f); createTruck(-2,-200,270,0.5f); createTruck(6,-200,270,0.5f); createTruck(4,-160,90,0.6f); createTruck(-1,-160,90,0.6f); createTruck(-6,-160,90,0.6f); createCar(-4,-120,270,0.3f); createCar(0,-120,270,0.3f); createCar(4,-120,270,0.3f); createCar(7,-120,270,0.3f); createCar(-3,-80,90,0.2f); createCar(-5,-80,90,0.2f); createCar(5,-80,90,0.2f); createCar(1,-80,90,0.2f); createCar(0,-40,270,0.3f); createCar(5,-40,270,0.3f); createCar(-7,-40,270,0.3f); createCar(-3,-40,270,0.3f); createLog(-3,120,3,0.3f); createLog(-3,200,3,0.3f); createLog(-3,280,3,0.3f); createRiverTurtle(-4,160,4,0.3f); createRiverTurtle(4,160,4,0.3f); createRiverTurtle(-7,160,1,0.3f); createRiverTurtle(-1,240,3,0.4f); createRiverTurtle(-8,240,3,0.4f); createRiverTurtle(3,240,2,0.4f); }
-    private void level5(){ createCar(-4,-200,270,0.3f); createCar(0,-200,270,0.3f); createCar(4,-200,270,0.3f); createCar(7,-200,270,0.3f); createCar(-3,-160,90,0.2f); createCar(-5,-160,90,0.2f); createCar(5,-160,90,0.2f); createCar(1,-160,90,0.2f); createCar(8,-160,90,0.2f); createCar(-4,-120,270,0.3f); createCar(0,-120,270,0.3f); createCar(4,-120,270,0.3f); createCar(7,-120,270,0.3f); createCar(-3,-80,90,0.2f); createCar(-5,-80,90,0.2f); createCar(4,-80,90,0.2f); createCar(1,-80,90,0.2f); createCar(7,-80,90,0.2f); createCar(0,-40,270,0.3f); createCar(5,-40,270,0.3f); createCar(-7,-40,270,0.3f); createCar(-3,-40,270,0.3f); createLog(-5,120,2,0.2f); createLog(0,200,2,0.1f); createLog(-5,280,2,0.2f); createRiverTurtle(-4,160,2,0.3f); createRiverTurtle(4,160,3,0.3f); createRiverTurtle(-7,160,2,0.3f); createRiverTurtle(-1,240,2,0.3f); createRiverTurtle(-8,240,2,0.3f); createRiverTurtle(3,240,3,0.3f); }
+    private void level2(){
+        createTruck(4,-200,270,0.8f);
+        createTruck(-3,-200,270,0.8f);
+        createTruck(0,-160,90,0.9f);
+        createTruck(-4,-160,90,0.9f);
+        createTruck(-1,-120,270,0.8f);
+        createTruck(4,-120,270,0.8f);
+        createTruck(-5,-120,270,0.8f);
+        createCar(0,-80,90,0.2f);
+        createCar(-4,-80,90,0.2f);
+        createCar(8,-80,90,0.2f);
+        createCar(6,-40,270,0.4f);
+        createCar(2,-40,270,0.4f);
+        createCar(-3,-40,270,0.4f);
+        createCar(-6,-40,270,0.4f);
+        // Logs - no logs near finish zone
+        createLog(6,110,3,0.6f);
+        createLog(-4,110,4,0.6f);
+        createLog(0,180,3,0.3f);
+        createLog(-6,180,3,0.3f);
+        // Turtles for safe passage to finish
+        createRiverTurtle(0,160,4,0.3f);
+        createRiverTurtle(6,160,4,0.3f);
+        createRiverTurtle(0,240,4,0.4f);
+        createRiverTurtle(6,240,3,0.4f);
+        createRiverTurtle(3,280,3,0.3f);
+        createRiverTurtle(-4,280,4,0.3f);
+    }
+    private void level3(){
+        createTruck(-8,-200,270,0.7f);
+        createTruck(-4,-200,270,0.7f);
+        createTruck(0,-200,270,0.7f);
+        createTruck(-2,-160,90,0.7f);
+        createTruck(2,-160,90,0.7f);
+        createTruck(-6,-160,90,0.7f);
+        createTruck(-4,-120,270,0.7f);
+        createTruck(0,-120,270,0.7f);
+        createTruck(4,-120,270,0.7f);
+        createCar(-3,-80,90,0.2f);
+        createCar(-5,-80,90,0.2f);
+        createCar(5,-80,90,0.2f);
+        createCar(1,-80,90,0.2f);
+        createCar(0,-40,270,0.3f);
+        createCar(5,-40,270,0.3f);
+        createCar(-7,-40,270,0.3f);
+        createCar(-3,-40,270,0.3f);
+        // Logs - no logs near finish zone
+        createLog(-6,110,4,0.4f);
+        createLog(-2,180,3,0.4f);
+        createLog(5,180,3,0.4f);
+        // Turtles for safe passage to finish
+        createRiverTurtle(-4,160,4,0.3f);
+        createRiverTurtle(5,160,4,0.3f);
+        createRiverTurtle(-1,240,3,0.4f);
+        createRiverTurtle(-8,240,3,0.4f);
+        createRiverTurtle(0,280,3,0.2f);
+        createRiverTurtle(4,280,3,0.2f);
+    }
+    private void level4(){
+        createTruck(-8,-200,270,0.5f);
+        createTruck(-2,-200,270,0.5f);
+        createTruck(6,-200,270,0.5f);
+        createTruck(4,-160,90,0.6f);
+        createTruck(-1,-160,90,0.6f);
+        createTruck(-6,-160,90,0.6f);
+        createCar(-4,-120,270,0.3f);
+        createCar(0,-120,270,0.3f);
+        createCar(4,-120,270,0.3f);
+        createCar(7,-120,270,0.3f);
+        createCar(-3,-80,90,0.2f);
+        createCar(-5,-80,90,0.2f);
+        createCar(5,-80,90,0.2f);
+        createCar(1,-80,90,0.2f);
+        createCar(0,-40,270,0.3f);
+        createCar(5,-40,270,0.3f);
+        createCar(-7,-40,270,0.3f);
+        createCar(-3,-40,270,0.3f);
+        // Logs - no logs near finish zone
+        createLog(-3,110,3,0.3f);
+        createLog(-3,180,3,0.3f);
+        // Turtles for safe passage
+        createRiverTurtle(-4,160,4,0.3f);
+        createRiverTurtle(4,160,4,0.3f);
+        createRiverTurtle(-7,160,1,0.3f);
+        createRiverTurtle(-1,240,3,0.4f);
+        createRiverTurtle(-8,240,3,0.4f);
+        createRiverTurtle(3,240,2,0.4f);
+        createRiverTurtle(0,280,3,0.2f);
+        createRiverTurtle(5,280,3,0.2f);
+    }
+    private void level5(){
+        createCar(-4,-200,270,0.3f);
+        createCar(0,-200,270,0.3f);
+        createCar(4,-200,270,0.3f);
+        createCar(7,-200,270,0.3f);
+        createCar(-3,-160,90,0.2f);
+        createCar(-5,-160,90,0.2f);
+        createCar(5,-160,90,0.2f);
+        createCar(1,-160,90,0.2f);
+        createCar(8,-160,90,0.2f);
+        createCar(-4,-120,270,0.3f);
+        createCar(0,-120,270,0.3f);
+        createCar(4,-120,270,0.3f);
+        createCar(7,-120,270,0.3f);
+        createCar(-3,-80,90,0.2f);
+        createCar(-5,-80,90,0.2f);
+        createCar(4,-80,90,0.2f);
+        createCar(1,-80,90,0.2f);
+        createCar(7,-80,90,0.2f);
+        createCar(0,-40,270,0.3f);
+        createCar(5,-40,270,0.3f);
+        createCar(-7,-40,270,0.3f);
+        createCar(-3,-40,270,0.3f);
+        // Logs - no logs near finish zone
+        createLog(-5,110,2,0.2f);
+        createLog(0,180,2,0.1f);
+        // Turtles for safe passage to finish
+        createRiverTurtle(-4,160,2,0.3f);
+        createRiverTurtle(4,160,3,0.3f);
+        createRiverTurtle(-7,160,2,0.3f);
+        createRiverTurtle(-1,240,2,0.3f);
+        createRiverTurtle(-8,240,2,0.3f);
+        createRiverTurtle(3,240,3,0.3f);
+        createRiverTurtle(0,280,2,0.2f);
+        createRiverTurtle(5,280,2,0.2f);
+    }
 
     private void createTruck(int x,int y,int direction,float speed){ 
         int vel = Math.max(1, (int)(speed*3));
