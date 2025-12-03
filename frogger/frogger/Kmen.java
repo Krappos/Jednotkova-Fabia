@@ -12,10 +12,20 @@ public class Kmen extends Obrazok {
         this.rychlost = rychlost;
     }
     
+    public int getX() {
+        return x;
+    }
+    
+    public int getY() {
+        return y;
+    }
+    
+    @Override
     public void zobraz() {
         // Display log
     }
     
+    @Override
     public void skry() {
         // Hide log
     }

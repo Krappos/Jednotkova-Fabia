@@ -18,11 +18,11 @@ public class Frogger {
         setup();
 
         gameTimer = new Timer(50, e -> { 
-            if (!gameManager.isDead()) {
-                gameManager.update();
-                platno.vykresli();
-            }
-        });
+                if (!gameManager.isDead()) {
+                    gameManager.update();
+                    platno.vykresli();
+                }
+            });
         gameTimer.start();
     }
 
@@ -32,15 +32,25 @@ public class Frogger {
     }
     // Delegates for game state access
     public zaba getFrog() { return gameManager.getFrog(); }
+
     public List<Auto> getCars() { return gameManager.getCars(); }
+
     public List<Kamion> getTrucks() { return gameManager.getTrucks(); }
+
     public List<Kmen> getLogs() { return gameManager.getLogs(); }
+
     public List<Korytnacka> getRiverTurtles() { return gameManager.getRiverTurtles(); }
+
     public List<Lekno> getPads() { return gameManager.getPads(); }
+
     public int getLives() { return gameManager.getLives(); }
+
     public int getLevel() { return gameManager.getLevel(); }
+
     public int getJumps() { return gameManager.getJumps(); }
+
     public float getTimeLeft() { return gameManager.getTimeLeft(); }
+
     public boolean isDead() { return gameManager.isDead(); }
 
     public void setAction(int action) { 

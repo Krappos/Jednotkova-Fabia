@@ -50,6 +50,14 @@ public class zaba extends obdlznik {
         this.y = newY;
     }
     
+    public int getX() {
+        return poziciaX;
+    }
+    
+    public int getY() {
+        return poziciaY;
+    }
+    
     @Override
     public void zobraz() {
         // Display frog

@@ -272,6 +272,10 @@ public class Platno extends JFrame {
             // Draw river area
             g2.setColor(new Color(30, 144, 255));
             g2.fillRect(0, height - 180, width, 180);
+            
+            // Draw finish area (green zone at bottom for level advancement)
+            g2.setColor(new Color(50, 200, 50));
+            g2.fillRect(0, height - 40, width, 40);
 
             // Draw grid for better visibility
             g2.setColor(new Color(100, 100, 100));

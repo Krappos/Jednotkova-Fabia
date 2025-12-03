@@ -9,6 +9,14 @@ public class Lekno extends Obrazok {
         super(x, y);
     }
     
+    public int getX() {
+        return x;
+    }
+    
+    public int getY() {
+        return y;
+    }
+    
     @Override
     public void zobraz() {
         // Display lily pad

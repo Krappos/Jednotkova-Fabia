@@ -14,6 +14,14 @@ public class Korytnacka extends Obrazok {
         this.dlzka = dlzka;
     }
     
+    public int getX() {
+        return x;
+    }
+    
+    public int getY() {
+        return y;
+    }
+    
     public void posunSa() {
         if (smer) {
             x -= rychlost;  // Move left

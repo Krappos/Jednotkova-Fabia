@@ -26,8 +26,20 @@ public class Auto extends Obrazok {
         return smer;
     }
     
+    public int getX() {
+        return x;
+    }
+    
+    public int getY() {
+        return y;
+    }
+    
     public void setX(int newX) {
         x = newX;
+    }
+    
+    public int getRychlost() {
+        return rychlost;
     }
     
     @Override

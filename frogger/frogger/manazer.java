@@ -102,14 +102,54 @@ public class manazer {
             if (car.getX() < -420) car.setX(420 + rand.nextInt(160));
         }
 
+        // Update logs with collision avoidance
         for (Kmen log : logs) {
+            int oldX = log.getX();
             log.posunSa();
+            
+            // Check collision with other logs
+            for (Kmen otherLog : logs) {
+                if (log != otherLog && arePlatformsColliding(log, otherLog)) {
+                    log.setX(oldX);  // Revert movement
+                    break;
+                }
+            }
+            
+            // Check collision with turtles
+            for (Korytnacka turtle : riverTurtles) {
+                if (arePlatformsColliding(log, turtle)) {
+                    log.setX(oldX);  // Revert movement
+                    break;
+                }
+            }
+            
+            // Screen wrapping
             if (log.getX() > 420) log.setX(-420 - rand.nextInt(160));
             if (log.getX() < -420) log.setX(420 + rand.nextInt(160));
         }
 
+        // Update turtles with collision avoidance
         for (Korytnacka t : riverTurtles) {
+            int oldX = t.getX();
             t.posunSa();
+            
+            // Check collision with logs
+            for (Kmen log : logs) {
+                if (arePlatformsColliding(t, log)) {
+                    t.setX(oldX);  // Revert movement
+                    break;
+                }
+            }
+            
+            // Check collision with other turtles
+            for (Korytnacka otherTurtle : riverTurtles) {
+                if (t != otherTurtle && arePlatformsColliding(t, otherTurtle)) {
+                    t.setX(oldX);  // Revert movement
+                    break;
+                }
+            }
+            
+            // Screen wrapping
             if (t.getX() > 420) t.setX(-420 - rand.nextInt(160));
             if (t.getX() < -420) t.setX(420 + rand.nextInt(160));
         }
@@ -187,6 +227,14 @@ public class manazer {
 
         if (spawnProtection > 0) return;
 
+        // Check if frog reached finish zone (green area at bottom)
+        if (frog.getY() >= 300) {
+            System.out.println("Level " + level + " Complete!");
+            level++;
+            nextLevel();
+            return;
+        }
+
         // Collisions with vehicles only in road areas
             // Collisions with vehicles only when frog is above the gray safe zone
             // Vehicles occupy the upper area (negative Y rows). Do not kill frog when on gray band.
@@ -195,8 +243,8 @@ public class manazer {
                 for (Auto c : cars) if (isColliding(frog, c)) { killFrog(); return; }
             }
 
-            // Water area check (river area must be around Y 120..300). Frog must be on log, turtle, or pad.
-            if (frog.getY() >= 120 && frog.getY() < 300) {
+            // Water area check (river area must be around Y 100..310). Frog must be on log, turtle, or pad.
+            if (frog.getY() >= 100 && frog.getY() < 310) {
                 boolean onLog = false, onTurtle = false, onPad = false;
                 for (Kmen log : logs) if (isOnLog(frog, log)) { onLog = true; break; }
                 for (Korytnacka t : riverTurtles) if (isOnTurtle(frog, t)) { onTurtle = true; break; }
@@ -223,14 +271,32 @@ public class manazer {
         return Math.abs(frog.getX() - truck.getX()) < 40 && Math.abs(frog.getY() - truck.getY()) < 25;
     }
     private boolean isOnLog(zaba frog, Kmen log) {
-        return Math.abs(frog.getX() - log.getX()) < 30 && Math.abs(frog.getY() - log.getY()) < 15;
+        return Math.abs(frog.getX() - log.getX()) < 40 && Math.abs(frog.getY() - log.getY()) < 20;
     }
     private boolean isOnTurtle(zaba frog, Korytnacka t) {
-        return Math.abs(frog.getX() - t.getX()) < 30 && Math.abs(frog.getY() - t.getY()) < 15;
+        return Math.abs(frog.getX() - t.getX()) < 40 && Math.abs(frog.getY() - t.getY()) < 20;
     }
     private boolean isOnPad(zaba frog, Lekno pad) {
-        return Math.abs(frog.getX() - pad.getX()) < 30 && Math.abs(frog.getY() - pad.getY()) < 25;
+        return Math.abs(frog.getX() - pad.getX()) < 40 && Math.abs(frog.getY() - pad.getY()) < 20;
     }
+    
+    // Check if two platforms collide (with padding for safety)
+    private boolean arePlatformsColliding(Kmen log1, Kmen log2) {
+        return Math.abs(log1.getX() - log2.getX()) < 80 && Math.abs(log1.getY() - log2.getY()) < 15;
+    }
+    
+    private boolean arePlatformsColliding(Kmen log, Korytnacka turtle) {
+        return Math.abs(log.getX() - turtle.getX()) < 80 && Math.abs(log.getY() - turtle.getY()) < 15;
+    }
+    
+    private boolean arePlatformsColliding(Korytnacka turtle1, Korytnacka turtle2) {
+        return Math.abs(turtle1.getX() - turtle2.getX()) < 80 && Math.abs(turtle1.getY() - turtle2.getY()) < 15;
+    }
+    
+    private boolean arePlatformsColliding(Korytnacka turtle, Kmen log) {
+        return Math.abs(turtle.getX() - log.getX()) < 80 && Math.abs(turtle.getY() - log.getY()) < 15;
+    }
+    
     private boolean isNear(int x1,int y1,int x2,int y2,int d){return Math.abs(x1-x2)<d && Math.abs(y1-y2)<d;}
 
     private void level1(){
