@@ -70,12 +70,12 @@ public class manazer {
         pads.clear();
 
         // Pads in river area at different Y positions
+        // Place lily pads in the blue river area (Y in game coords ~ 120..260)
+        // We'll add two rows of pads inside the river so they are visible on the blue band
         for (int x = -6; x <= 6; x += 3) {
-            pads.add(new Lekno(x * 40, -40));   // Upper river
-            pads.add(new Lekno(x * 40, 20));    // Middle river
-            pads.add(new Lekno(x * 40, 80));    // Lower river
+            pads.add(new Lekno(x * 40, 160)); // upper river row (screen y ~ 460)
+            pads.add(new Lekno(x * 40, 220)); // lower river row (screen y ~ 520)
         }
-
         resetFrog();
         padsDone = 0;
     }
@@ -188,19 +188,21 @@ public class manazer {
         if (spawnProtection > 0) return;
 
         // Collisions with vehicles only in road areas
-        if (frog.getY() >= -100 && frog.getY() <= 100) {
-            for (Kamion t : trucks) if (isColliding(frog, t)) { killFrog(); return; }
-            for (Auto c : cars) if (isColliding(frog, c)) { killFrog(); return; }
-        }
+            // Collisions with vehicles only when frog is above the gray safe zone
+            // Vehicles occupy the upper area (negative Y rows). Do not kill frog when on gray band.
+            if (frog.getY() < -20) {
+                for (Kamion t : trucks) if (isColliding(frog, t)) { killFrog(); return; }
+                for (Auto c : cars) if (isColliding(frog, c)) { killFrog(); return; }
+            }
 
-        // Water area check (must be on log, turtle, or pad)
-        if (frog.getY() > -60 && frog.getY() < 100) {
-            boolean onLog = false, onTurtle = false, onPad = false;
-            for (Kmen log : logs) if (isOnLog(frog, log)) { onLog = true; break; }
-            for (Korytnacka t : riverTurtles) if (isOnTurtle(frog, t)) { onTurtle = true; break; }
-            for (Lekno pad : pads) if (isOnPad(frog, pad)) { onPad = true; break; }
-            if (!onLog && !onTurtle && !onPad) { killFrog(); return; }
-        }
+            // Water area check (river area must be around Y 120..300). Frog must be on log, turtle, or pad.
+            if (frog.getY() >= 120 && frog.getY() < 300) {
+                boolean onLog = false, onTurtle = false, onPad = false;
+                for (Kmen log : logs) if (isOnLog(frog, log)) { onLog = true; break; }
+                for (Korytnacka t : riverTurtles) if (isOnTurtle(frog, t)) { onTurtle = true; break; }
+                for (Lekno pad : pads) if (isOnPad(frog, pad)) { onPad = true; break; }
+                if (!onLog && !onTurtle && !onPad) { killFrog(); return; }
+            }
 
         if (timeLeft <= 0) { killFrog(); return; }
     }
